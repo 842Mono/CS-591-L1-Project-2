@@ -5,25 +5,18 @@ class Problem1Visitor(ast.NodeVisitor):
         print(node)
         
     def visit_Assign(self, node):
-        #print(node)
-        #print(dir(node))
-        #print("^dir")
-        #print(node.targets)
-        #print("^targets")
-        #print(node.targets[0])
-        print(node.targets[0].id)
-        #print(dir(node.targets[0]))
-        #print("^sth")
-        #print(node.value)
-        print(node.value.lineno)
-        print(dir(node.value))
+        #print(node.targets[0].id)
+        if(node.targets[0].id.startswith('_n_')):
+            #print(dir(node.value))
+            if(hasattr(node.value, 'value') and node.value.value == None):
+                print("Error! Assigning 'None' to a protected variable at " + str(node.value.lineno) + " .")
         
         if(hasattr(node.value, 'value')):
             print(node.value.value)
+            print("v")
         if(hasattr(node.value, 'n')):
             print(node.value.n)
-        #print(node.value.n)
-        #print("^value")
+            print("n")
         
 
 if __name__ == '__main__':
