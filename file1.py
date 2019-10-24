@@ -5,18 +5,15 @@ class Problem1Visitor(ast.NodeVisitor):
         print(node)
         
     def visit_Assign(self, node):
-        #print(node.targets[0].id)
         if(node.targets[0].id.startswith('_n_')):
-            #print(dir(node.value))
+            
+            # directly assigning None
             if(hasattr(node.value, 'value') and node.value.value == None):
                 print("Error! Assigning 'None' to a protected variable at " + str(node.value.lineno) + " .")
-        
-        if(hasattr(node.value, 'value')):
-            print(node.value.value)
-            print("v")
-        if(hasattr(node.value, 'n')):
-            print(node.value.n)
-            print("n")
+                
+            # assigning an unprotected variable to a protected variable
+            if(hasattr(node.value, 'id') and not node.value.id.startswith('_n_')):
+                print("Error! Assigning an unprotected variable to a protected variable at " + str(node.value.lineno) + " .")
         
 
 if __name__ == '__main__':
