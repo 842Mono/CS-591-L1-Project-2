@@ -24,4 +24,7 @@ y = 'something'
 func(y) # should cause an error
 _n_x = _n_func1(y) # should work
 _n_y = _n_func2(10) # should work
-_n_func2(y) # should cause an error 
+_n_func2(y) # should cause an error
+
+
+_n_x = func(_n_x) # error

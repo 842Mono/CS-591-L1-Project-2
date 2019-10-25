@@ -14,6 +14,21 @@ class Problem1Visitor(ast.NodeVisitor):
             # assigning an unprotected variable to a protected variable
             if(hasattr(node.value, 'id') and not node.value.id.startswith('_n_')):
                 print("Error! Assigning an unprotected variable to a protected variable at " + str(node.value.lineno) + " .")
+                
+            # assigning the return value of a function to a variable
+            #print(node.targets)
+            #for e in dir(node.value):
+                #print(e)
+            print("****")
+            if(hasattr(node.value, 'func')):
+                #for e in dir(node.value.func):
+                    #print(e)
+                #print(node.value.func)
+                print(node.value.func.id)
+                
+    #def visit_FunctionDef(self, node):
+        #for e in dir(node):
+            #print(e)
         
 
 if __name__ == '__main__':
