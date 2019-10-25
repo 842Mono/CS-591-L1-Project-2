@@ -21,11 +21,9 @@ if __name__ == '__main__':
     with open(filename, 'r') as code_file:
         code = code_file.read()
         tree = ast.parse(code)
-        #solution(tree) # your solution function
-        #print(tree)
         
-visitor = Problem1Visitor()
-visitor.visit(tree)
+        visitor = Problem1Visitor()
+        visitor.visit(tree)
 
         
         
