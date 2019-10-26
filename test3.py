@@ -28,3 +28,10 @@ _n_func2(y) # should cause an error
 
 
 _n_x = func(_n_x) # error
+
+# a function taking two parameters
+def f1(_n_a, b):
+    print(a)
+    
+f1(1, 2)
+f1(None, 3)
