@@ -31,7 +31,21 @@ _n_x = func(_n_x) # error
 
 # a function taking two parameters
 def f1(_n_a, b):
-    print(a)
+    print(_n_a)
     
 f1(1, 2)
 f1(None, 3)
+
+_n_protected = None
+_n_protected2 = y
+
+def _n_f2():
+    print("here")
+    
+v1 = _n_f2()
+print("v1:", v1)
+
+def _n_f3():
+    return None
+
+return "test"
