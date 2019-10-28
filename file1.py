@@ -24,7 +24,7 @@ class Problem1Visitor(ast.NodeVisitor):
             if(hasattr(node.value, 'id') and not node.value.id.startswith('_n_')):
                 print("Error: Assigning an unprotected variable to a protected variable at " + str(node.value.lineno) + ".")
                 
-            if(hasattr(node.value, 'func') and not node.value.func.id.startswith('_n_')):
+            if(hasattr(node.value, 'func') and not (node.value.func.id.startswith('_n_') or node.value.func.id == 'null_cast')):
                 print("Error: Assigning the result of an unprotected function to a protected variable at " + str(node.value.func.lineno) + ".")
             
     def visit_Call(self, node):
@@ -35,6 +35,10 @@ class Problem1Visitor(ast.NodeVisitor):
                     print("Error: Passing 'None' to a protected argument at " + str(arg.lineno) + ".")
                 elif(hasattr(arg, 'id') and not arg.id.startswith('_n_')):
                     print("Error: Passing unprotected variable to a protected argument at " + str(arg.lineno) + ".")
+                elif(hasattr(arg, 'func') and not(arg.func.id.startswith('_n_') or arg.func.id == 'null_cast')):
+                    print("Error: Passing unprotected function call to a protected argument at " + str(arg.lineno) + ".")
+                #for e in dir(arg):
+                    #print(e)
 
     def visit_FunctionDef(self, node):
         
@@ -52,7 +56,6 @@ class Problem1Visitor(ast.NodeVisitor):
                         print("Error: Protected function returning 'None' at " + str(line.value.lineno) + ".")
                     if(hasattr(line.value, 'func') and not line.value.func.id.startswith('_n_')):
                         print("Error: Protected function returning the result of an unprotected function at " + str(line.value.lineno) + ".")
-            
             if(NoReturnStatements):
                 print("Error: Protected function with no return statements at " + str(node.lineno) + ".")
 
