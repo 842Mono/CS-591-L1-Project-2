@@ -27,25 +27,12 @@ _n_y = _n_func2(10) # should work
 _n_func2(y) # should cause an error
 
 
-_n_x = func(_n_x) # error
+_n_x = func(_n_x) # Error: Assigning the result of an unprotected function to a protected variable
 
-# a function taking two parameters
-def f1(_n_a, b):
-    print(_n_a)
-    
-f1(1, 2)
-f1(None, 3)
+_n_func2(None) # Error: Passing 'None' to a protected argument
 
-_n_protected = None
-_n_protected2 = y
-
-def _n_f2():
-    print("here")
-    
-v1 = _n_f2()
-print("v1:", v1)
+_n_protected = None # Error: Assigning 'None' to a protected variable
+_n_protected2 = y # Error: Assigning an unprotected variable to a protected variable
 
 def _n_f3():
-    return None
-
-return "test"
+    return None # Error: Protected function returning 'None'
