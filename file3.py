@@ -58,13 +58,15 @@ def null_weave():
     statements = []
     for statement in tree.body:
         if isinstance(statement, ast.FunctionDef):
-            statement = instrument_body(statement)
+            statement = instrument_FunctionDef(statement)
+        # elif isinstance(statement, ast.Return):
+        #     statement = instrument_Return(statement)
         statements.append(statement)
     tree.body = statements
     code = astor.to_source(tree)
-    print('output code --------------------------')
+    print('# output code --------------------------')
     print(code)
-    print('---------------------------------------')
+    print('# --------------------------------------')
     return code
 
     # tree = ast.parse(inspect.getsource(sys.modules['__main__']))
@@ -74,21 +76,39 @@ def null_weave():
 
     # print(inspect.getsource(sys.modules['__main__']))
 
-def instrument_body(function_def):
+def instrument_FunctionDef(function_def):
     
     statements = []
     for e in function_def.args.args:
         if(e.arg.startswith('_n_')):
             statements.append(ast.parse("if(" + e.arg + " is None):\n   raise Exception('" + e.arg + " is given None in " + function_def.name + "')"))
-            
+
+    function_def.body = statements + function_def.body
+
+    if(function_def.name.startswith('_n_')):
+        i = 0
+        while(i < len(function_def.body)):
+            if(isinstance(function_def.body[i], ast.Return)):
+                print(function_def.body[i].value)
+                # for e in dir(function_def.body[i].value):
+                #     print(e)
+                if(hasattr(function_def.body[i].value, 'id')):
+                    function_def.body.insert(i, ast.parse("if(" + function_def.body[i].value.id + " is None):\n   raise Exception('" + function_def.body[i].value.id + " is given None in " + function_def.name + "')"))
+                    i += 1
+                elif(hasattr(function_def.body[i].value, 'value')):
+                    function_def.body.insert(i, ast.parse("if(" + function_def.body[i].value.value + " is None):\n   raise Exception('" + function_def.body[i].value.value + " is given None in " + function_def.name + "')"))
+                    i += 1
+                # function_def.body.insert(i, )
+            i += 1
+
+
+    return function_def
+
     # for e in statements:
     #     print(e)
 
     # for e in function_def.body:
     #     print(e.value)
-
-    function_def.body = statements + function_def.body
-    return function_def
 
     # for statement in function_def.body:
     #     if isinstance(statement, ast.Expr) and isinstance(statement.value, ast.Call):
