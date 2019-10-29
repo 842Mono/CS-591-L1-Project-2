@@ -15,9 +15,3 @@ def func1(_n_x, _n_y, z):
 
 def _n_func2(x):
   return x
-
-# if this file is run you should see this behavior:
-null_weave() # should use aspect lib to weave your aspect to all function calls
-func1(10, 20, 30) # should show 30 to the screen
-print(_n_func2(10)) # should print 10
-print(_n_func2(None)) # should show an error because of the None check in the aspect! 
