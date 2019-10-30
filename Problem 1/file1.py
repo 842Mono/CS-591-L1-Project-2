@@ -37,8 +37,6 @@ class Problem1Visitor(ast.NodeVisitor):
                     print("Error: Passing unprotected variable to a protected argument at " + str(arg.lineno) + ".")
                 elif(hasattr(arg, 'func') and not(arg.func.id.startswith('_n_') or arg.func.id == 'null_cast')):
                     print("Error: Passing unprotected function call to a protected argument at " + str(arg.lineno) + ".")
-                #for e in dir(arg):
-                    #print(e)
 
     def visit_FunctionDef(self, node):
         
@@ -59,7 +57,6 @@ class Problem1Visitor(ast.NodeVisitor):
             if(NoReturnStatements):
                 print("Error: Protected function with no return statements at " + str(node.lineno) + ".")
 
-
 if __name__ == '__main__':
     filename = sys.argv[1]
     with open(filename, 'r') as code_file:
@@ -75,6 +72,3 @@ if __name__ == '__main__':
         
         #run the visitor
         visitor.visit(tree)
-
-        
-        
