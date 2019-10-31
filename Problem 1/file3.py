@@ -1,7 +1,7 @@
-import inspect
 import sys
 import ast
 import astor
+import inspect
 
 FunctionsToParameters = {}
 
@@ -18,7 +18,7 @@ def WeaveOneFunction(function):
 
     def NewFunction(*args, **kwargs):
 
-        limit =  len(args) if len(args) < len(function.__code__.co_varnames) else len(function.__code__.co_varnames)
+        limit = len(args) if len(args) < len(function.__code__.co_varnames) else len(function.__code__.co_varnames)
         i = 0
         while(i < limit):
             if args[i] is None:
