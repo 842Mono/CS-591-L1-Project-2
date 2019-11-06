@@ -6,18 +6,29 @@ memo = {}
 
 @Aspect(bind=True)
 def memoize_aspect(f, *args, **kwargs):
-    key = f.__name__ + "|" + ",".join(str(args)) + "|" + ",".join(str(kwargs))
+    key = f.__name__ + "|" + str(args) + "|" + str(kwargs)
+    # print('LOOK AT ME', inspect.getsource(f))
     if(not key in memo):
         memo[key] = yield Proceed(*args, **kwargs)
         yield Return(memo[key])
-    yield Return(memo[key])
+    else:
+        yield Return(memo[key])
 
-def weave_memoize(source, Globals):
-
+def weave_memoize():
+    source = inspect.getsource(sys.modules['__main__'])
+    # print(source)
     tree = ast.parse(source)
 
     for statement in tree.body:
-        if isinstance(statement, ast.FunctionDef) and not (statement.name == "memoize_aspect" or statement.name == "weave_memoize"):
-            # print(inspect.getsource(Globals[statement.name]))
-            weave(Globals[statement.name], memoize_aspect)
-            # print(inspect.getsource(Globals[statement.name]))
+        # print(statement)
+        # for e in dir(statement):
+        #     print(e)
+        if isinstance(statement, ast.FunctionDef):
+            weave('__main__.' + statement.name, memoize_aspect)
+            # print(statement)
+            # for e in dir(statement):
+            #     print(e)
+    
+
+    # print("new src")
+    # print(astor.to_source(tree))

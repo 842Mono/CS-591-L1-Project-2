@@ -9,7 +9,19 @@ def fib(n):
 
     return fib(n-1) + fib(n-2)
 
-weave_memoize(inspect.getsource(sys.modules[__name__]), globals())
+weave_memoize()
 
-print(fib(5))
+# print(fib(5))
 # print(memo)
+
+
+
+# def my_range(x):
+#     x = yield 'kinan'
+#     print('hello', x)
+#     yield 'mina'
+
+# gen = my_range(10)
+# print(gen)
+# print(next(gen)) #kinan
+# print(gen.send('bla'))
